@@ -1,0 +1,126 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Logo Overlap Example</title>
+  </head>
+  <body>
+    <div id="container">
+      <img id="document-img" src="document.PNG" />
+      <img id="logo-img" src="logo3.png" />
+    </div>
+    <button id="download-btn" onclick="downloadImage()">Verify</button>
+
+    <script>
+      const container = document.getElementById("container");
+      const documentImg = document.getElementById("document-img");
+      const logoImg = document.getElementById("logo-img");
+      const downloadBtn = document.getElementById("download-btn");
+
+      // Position the logo in the bottom right corner
+      documentImg.style.position = "relative";
+      logoImg.style.position = "absolute";
+      logoImg.style.top = "2rem";
+      logoImg.style.left = "2.625rem";
+      logoImg.style.width = "6.25rem"; // Set the width of the logo to 100 pixels
+
+      // Set the z-index of the logo to be above the document image
+      logoImg.style.zIndex = 2;
+
+      // Make sure the document image has a higher z-index than the body background
+      documentImg.style.zIndex = 1;
+
+      function downloadImage() {
+        // Create a canvas element with the same dimensions as the container
+        const canvas = document.createElement("canvas");
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+
+        // Draw the overlapped images onto the canvas
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(documentImg, 0, 0);
+
+        ctx.drawImage(logoImg, 10, 10);
+
+        // ctx.drawImage(
+        //   logoImg,
+        //   logoImg.offsetTop,
+        //   container.clientHeight - logoImg.clientHeight
+        // );
+
+        // Convert the canvas to a data URL and set it as the href of a download link
+        const dataURL = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = dataURL;
+        downloadLink.download = "document-with-logo.png";
+        downloadLink.click();
+      }
+    </script>
+  </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logo Overlap Example</title>
+  </head>
+  <body>
+    <div id="container">
+      <img id="document-img" src="document.PNG" />
+      <img id="logo-img" src="logo3.png" />
+    </div>
+    <button id="download-btn" onclick="downloadImage()">Verify</button>
+
+    <script>
+      const container = document.getElementById("container");
+      const documentImg = document.getElementById("document-img");
+      const logoImg = document.getElementById("logo-img");
+      const downloadBtn = document.getElementById("download-btn");
+
+      // Position the logo in the bottom right corner
+      documentImg.style.position = "relative";
+      logoImg.style.position = "absolute";
+      logoImg.style.top = "2rem";
+      logoImg.style.left = "2.625rem";
+      logoImg.style.width = "6.25rem"; // Set the width of the logo to 100 pixels
+
+      // Set the z-index of the logo to be above the document image
+      logoImg.style.zIndex = 2;
+
+      // Make sure the document image has a higher z-index than the body background
+      documentImg.style.zIndex = 1;
+
+      function downloadImage() {
+        // Get the dimensions and position of the document and logo images within the container
+        const documentRect = documentImg.getBoundingClientRect();
+        const logoRect = logoImg.getBoundingClientRect();
+
+        // Calculate the dimensions of the overlapped region
+        const x = Math.min(documentRect.left, logoRect.left);
+        const y = Math.min(documentRect.top, logoRect.top);
+        const width = Math.max(documentRect.right, logoRect.right) - x;
+        const height = Math.max(documentRect.bottom, logoRect.bottom) - y;
+
+        // Create a canvas element with the dimensions of the overlapped region
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        // Draw the overlapped images onto the canvas
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(documentImg, documentRect.left - x, documentRect.top - y);
+        ctx.drawImage(logoImg, logoRect.left - x + 10, logoRect.top - y + 10);
+
+        // Convert the canvas to a data URL and set it as the href of a download link
+        const dataURL = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.href = dataURL;
+        downloadLink.download = "document-with-logo.png";
+        downloadLink.click();
+      }
+    </script>
+  </body>
+</html>
+
+
+
